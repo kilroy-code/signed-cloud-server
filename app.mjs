@@ -1,16 +1,24 @@
+import process from 'process';
 import path from 'node:path';
 import express from 'express';
 import logger from 'morgan';
 import pkg from './package.json' assert {type: 'json'};
 const port = 8000;
 const app = express();
-app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '))
+app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
+process.title = 'ki1r0ystore';
 
 const serverPath = path.dirname(new URL(import.meta.url).pathname), // Does not include module filename.
       publicPath = path.join(serverPath, 'public'),
       dbPath = path.join(publicPath, 'db');
 app.use(express.static(publicPath, { maxAge: '1h'}));
-app.use(express.text({type: '*/*'}));
+
+// It seems weird to handle json bodies as text, but alas, express body-parser doesn't
+// handle all JSON! Our clients can send the result of JSON.stringify("some string"),
+// which is legal json that JSON.parse handles, but which express body-parser does not.
+// In any case, we need the parsed result for verify, and the original string for writing
+// to the file system, so either way we have to either parse or stringify the body we are given.
+app.use(express.text({type: 'application/json'}));
 
 import fs from 'node:fs/promises';
 import Security from '../distributed-security/lib/api.mjs';
@@ -47,11 +55,15 @@ var queue = Promise.resolve();
 async function store(req, res) {
   let {body} = req,
       {collectionName, tag} = req.params,
-      payload = JSON.parse(body),
-      pathname = dbPathname(collectionName, tag);
-  let verified = await Security.verify(payload, {team: tag, notBefore: 'team', forceError: true}).catch(fail => undefined);
+
+      asObject = JSON.parse(body), // See comment for express.text, above.
+      asString = body,
+
+      pathname = dbPathname(collectionName, tag),
+      verified = await Security.verify(asObject, {team: tag, notBefore: 'team', forceError: true}).catch(fail => undefined);
+
   if (!verified) return res.status(403).status('Signature is not valid');
-  queue = queue.then(() => verified?.text ? fs.writeFile(pathname, body, {flush: true}) : fs.unlink(pathname));
+  queue = queue.then(() => verified?.text ? fs.writeFile(pathname, asString, {flush: true}) : fs.unlink(pathname));
   // It doesn't matter what we respond with, although of course we must respond with something.
   // Here we wait for our turn in the queue and for the write to complete, just in case the
   // client needs to know that the data is, in fact, now persisted.

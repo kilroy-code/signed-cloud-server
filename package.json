@@ -5,7 +5,10 @@
   "main": "routes.mjs",
   "scripts": {
     "start": "node app.mjs",
-    "test": "jasmine"
+    "stop": "pkill ki1r0ystore",
+    "background": "npm stop; (npm start 1>storage.log 2>&1 &); sleep 1",
+    "test-client": "jasmine",
+    "test": "npm run background && npm run test-client && npm stop"
   },
   "repository": {
     "type": "git",
