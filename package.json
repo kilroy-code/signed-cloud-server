@@ -1,0 +1,37 @@
+{
+  "name": "signed-cloud-server",
+  "version": "0.0.1",
+  "description": "Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.",
+  "main": "routes.mjs",
+  "scripts": {
+    "start": "node app.mjs",
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kilroy-code/signed-cloud-server.git"
+  },
+  "keywords": [
+    "cloud",
+    "cryptography",
+    "permissionless",
+    "server",
+    "express",
+    "distributed-security"
+  ],
+  "author": {
+    "name": "Howard Stearns",
+    "email": "howard@ki1r0y.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kilroy-code/signed-cloud-server/issues"
+  },
+  "homepage": "https://github.com/kilroy-code/signed-cloud-server#readme",
+  "devDependencies": {
+    "express": "^4.19.2",
+    "jasmine": "^5.1.0",
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2"
+  }
+}
