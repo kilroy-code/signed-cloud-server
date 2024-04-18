@@ -13,6 +13,7 @@ TODO:
 - [x] verify
 - [x] content-type
 - [ ] cache-control / max-age -- can we make it do the HEAD/304 thing?
+- [ ] test that requests are queued
 - [ ] origin (in signed-cloud-client/index.mjs, and signedCloudSpec.mjs)
 - [ ] split tag into subdirectories
 - [ ] split resusable parts to routes.mjs
