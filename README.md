@@ -12,13 +12,13 @@ TODO:
 - [x] unit tests
 - [x] verify
 - [x] content-type
-- [ ] cache-control / max-age -- can we make it do the HEAD/304 thing?
+- [x] split resusable parts to routes.mjs
 - [ ] test that requests are queued
 - [ ] origin (in signed-cloud-client/index.mjs, and signedCloudSpec.mjs)
-- [ ] split tag into subdirectories
-- [ ] split resusable parts to routes.mjs
-- [ ] process.title, powered-by, content-security-policy
 - [ ] link client to public at its installation
+- [ ] split tag into subdirectories
+- [ ] cache-control / max-age -- can we make it do the HEAD/304 thing?
+- [ ] process.title, powered-by, content-security-policy
 - [ ] update all READMEs
 - [ ] publish github @kilroy-code packages
 - [ ] install packages and refer to them in code

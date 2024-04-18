@@ -14,11 +14,16 @@ Security.Storage = Storage;
 Storage.Security = Security;
 
 async function checkSignedResult(collectionName, tag) {
+  // Retrieve specific resource and make sure it signed appropriately.
   let body = await Storage.retrieve(collectionName, tag),
       verified = await Security.verify(body);
   expect(verified).toBeTruthy();
-  expect(verified.protectedHeader.kid || verified.protectedHeader.iss).toBeTruthy();
   expect(verified.json).toBeTruthy();
+  expect(verified.protectedHeader.kid || verified.protectedHeader.iss).toBeTruthy();
+}
+async function checkEmptyResult(collectionName, tag) {
+  // Confirm that retrieval of a specific resource is empty.
+  expect(await Storage.retrieve(collectionName, tag)).toBeFalsy();
 }
 
 describe("Signed Cloud", function () {
@@ -49,16 +54,40 @@ describe("Signed Cloud", function () {
     await checkSignedResult('EncryptionKey', recoveryTag);
     await checkSignedResult('KeyRecovery', recoveryTag);
     await Security.destroy(recoveryTag);
-    expect(await Storage.retrieve('EncryptionKey', recoveryTag)).toBeFalsy();
-    expect(await Storage.retrieve('KeyRecovery', recoveryTag)).toBeFalsy();
+    await checkEmptyResult('EncryptionKey', recoveryTag);
+    await checkEmptyResult('KeyRecovery', recoveryTag);    
   }, 10e3);
+  it('read answer json with proper mime type.', function () {
+    // TODO:
+  });
+  it('write rejects non-json.', function () {
+    // TODO:
+  });
+  it('will not store garbage.', function () {
+    // TODO:
+  });
+  it('rejects storage with bad signature.', function () {
+    // TODO:
+  });
+  it('rejects storage by non-member.', function () {
+    // TODO:
+  });
+  it('removes file stored with empty signed payload.', function () {
+    // TODO:
+  });
+  it('queues write requests in order received.', async function () {
+    // TODO!
+  });
+  it('get provides headers for caching.', async function () {
+    // TODO!
+  });
   afterAll(async function () {
     await Security.destroy(team);
     await Security.destroy(member1);
     await Security.destroy(member2);
-    expect(await Storage.retrieve('EncryptionKey', member1)).toBeFalsy();
-    expect(await Storage.retrieve('EncryptionKey', member2)).toBeFalsy();
-    expect(await Storage.retrieve('EncryptionKey', team)).toBeFalsy();
-    expect(await Storage.retrieve('Team', team)).toBeFalsy();
+    await checkEmptyResult('EncryptionKey', member1);
+    await checkEmptyResult('EncryptionKey', member2);
+    await checkEmptyResult('EncryptionKey', team);
+    await checkEmptyResult('Team', team);
   });
 });
