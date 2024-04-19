@@ -57,26 +57,56 @@ describe("Signed Cloud", function () {
     await checkEmptyResult('EncryptionKey', recoveryTag);
     await checkEmptyResult('KeyRecovery', recoveryTag);    
   }, 10e3);
-  it('read answer json with proper mime type.', function () {
-    // TODO:
+  it('defines origin.', function () {
+    expect(Storage.origin).toBeTruthy();
   });
-  it('write rejects non-json.', function () {
-    // TODO:
+  it('read answers json with proper mime type.', async function () {
+    let response = await fetch(`${Storage.origin}/db/EncryptionKey/${member1}.json`);
+    expect(response.ok).toBeTruthy();
+    expect(response.headers.get('Content-Type').startsWith('application/json')).toBeTruthy();
   });
-  it('will not store garbage.', function () {
-    // TODO:
-  });
-  it('rejects storage with bad signature.', function () {
-    // TODO:
-  });
-  it('rejects storage by non-member.', function () {
-    // TODO:
-  });
-  it('removes file stored with empty signed payload.', function () {
-    // TODO:
-  });
-  it('queues write requests in order received.', async function () {
-    // TODO!
+  describe('write', function () {
+    let anotherTeam, url, signatureByRemovedMember, signatureByFinalMember, verified;
+    beforeAll(async function () {
+      anotherTeam = await Security.create(member1, member2),
+      url = `${Storage.origin}/db/Team/${anotherTeam}.json`,
+      signatureByRemovedMember = await fetch(url).then(response => response.json()),
+      await Security.changeMembership({tag: anotherTeam, remove: [member1]});
+      let ending = await fetch(url).then(response => response.json());
+      verified = await Security.verify(ending, {team: anotherTeam, member: false}); // Won't deep verify because we removed that member.
+      signatureByFinalMember = await Security.sign(verified.json, {team: anotherTeam, time: Date.now()});
+    });
+    it('resaves.', async function () {
+      let response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(signatureByFinalMember)});
+      expect(response.ok).toBeTruthy();
+    });
+    it('resaves a correctly resigned payload.', async function () {
+      let response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(signatureByFinalMember)});
+      expect(response.ok).toBeTruthy();
+    });
+    it('write rejects non-json writes.', async function () {
+      let response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/text'}, body: JSON.stringify(signatureByFinalMember)});
+      expect(response.ok).toBeFalsy();
+      expect(response.status).toBe(415); // Unsupported Media Type
+    });
+    it('rejects storage with insufficient signature.', async function () {
+      let resigned = await Security.sign(verified.json, member2), // right member, but not sufficiently auditable.
+          response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(resigned)});
+      expect(response.ok).toBeFalsy();
+      expect(response.status).toBe(403); // Forbidden
+    });
+    it('rejects storage by non-member.', async function () {
+      let response = await fetch(url, {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(signatureByRemovedMember)});
+      expect(response.ok).toBeFalsy();
+      expect(response.status).toBe(403); // Forbidden
+    });
+    it('queues write requests in order received.', async function () {
+      // TODO!
+    });
+    afterAll(async function () {
+      await Security.destroy(anotherTeam);
+      await checkEmptyResult('Team', anotherTeam);
+    });
   });
   it('get provides headers for caching.', async function () {
     // TODO!
