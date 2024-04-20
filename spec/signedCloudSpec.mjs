@@ -100,9 +100,6 @@ describe("Signed Cloud", function () {
       expect(response.ok).toBeFalsy();
       expect(response.status).toBe(403); // Forbidden
     });
-    it('queues write requests in order received.', async function () {
-      // TODO!
-    });
     afterAll(async function () {
       await Security.destroy(anotherTeam);
       await checkEmptyResult('Team', anotherTeam);
