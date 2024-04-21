@@ -7,11 +7,7 @@
 // - The default behavior of signed-cloud-server is to use distributed-security
 
 import Security from "../../distributed-security/lib/api.mjs";
-//import Security from "../../distributed-security/index.mjs";
-import Storage from "../../signed-cloud-client/index.mjs";
-Security.getUserDeviceSecret = (tag, prompt = '') => tag+prompt;
-Security.Storage = Storage;
-Storage.Security = Security;
+const Storage = Security.Storage; // Just shorthand.
 
 async function checkSignedResult(collectionName, tag) {
   // Retrieve specific resource and make sure it signed appropriately.
