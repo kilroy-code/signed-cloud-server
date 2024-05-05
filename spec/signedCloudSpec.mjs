@@ -6,7 +6,7 @@
 // - The default behavior of distributed-security is to use signed-cloud-client.
 // - The default behavior of signed-cloud-server is to use distributed-security
 
-import Security from "../../distributed-security/lib/api.mjs";
+import Security from "@kilroy-code/distributed-security";
 const Storage = Security.Storage; // Just shorthand.
 
 async function checkSignedResult(collectionName, tag) {
@@ -34,6 +34,7 @@ describe("Signed Cloud", function () {
     await checkSignedResult('EncryptionKey', team);
     await checkSignedResult('Team', team);
   }, 10e3);
+  it('fixme', function () { expect(true).toBeTruthy(); });
   it('verifies after change of membership, but tracks membership.', async function () {
     let teamSig = await Storage.retrieve('Team', team),
         verified = await Security.verify(teamSig, {team, member: member1, notBefore: 'Team'});

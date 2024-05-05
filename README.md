@@ -13,7 +13,6 @@ TODO:
 - [x] verify
 - [x] content-type
 - [x] split resusable parts to routes.mjs
-- [ ] test that requests are queued
 - [ ] origin (in signed-cloud-client/index.mjs, and signedCloudSpec.mjs)
 - [ ] link client to public at its installation
 - [ ] split tag into subdirectories
