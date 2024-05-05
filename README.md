@@ -1,27 +1,15 @@
-co-dependency with distributed-security
-router at entry point, for use in an express-like server. (give example code)
-comes with a basic stand-alone server:
-  npm install
-  npm start
-hosts client code. (show where)
+# Signed Cloud Server
 
-TODO:
+Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.
 
-- [x] queue
-- [x] how do we guard against rewrite of device EncryptionKey? (since devices have no members, so signature is compact)
-- [x] unit tests
-- [x] verify
-- [x] content-type
-- [x] split resusable parts to routes.mjs
-- [ ] origin (in signed-cloud-client/index.mjs, and signedCloudSpec.mjs)
-- [ ] link client to public at its installation
-- [ ] split tag into subdirectories
-- [ ] cache-control / max-age -- can we make it do the HEAD/304 thing?
-- [ ] process.title, powered-by, content-security-policy
-- [ ] update all READMEs
-- [ ] publish github @kilroy-code packages
-- [ ] install packages and refer to them in code
-- [ ] change packages to npm @kilr0y and republish
-- [ ] refer to npm @kilr0y packages in code and READMEs, update package versions to 1.0.0, and publish to npm
-- [ ] retest with clean install
+Suitable as a back-end for [ki1r0y](https://github.com/kilroy-code/ki1r0y) [distributed-security](https://github.com/kilroy-code/distributed-security).
+
+To run stand-alone:
+
+```
+npm install
+npm run start # or npm run background
+```
+
+To include in another express-like server, see [app.mjs](./app.mjs).
 

@@ -1,7 +1,4 @@
 *~
 .DS_Store
 package-lock.json
-db
-storage.log
-asyncLocalStorage
 node_modules
