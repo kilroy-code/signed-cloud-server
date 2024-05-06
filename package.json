@@ -1,5 +1,5 @@
 {
-  "name": "signed-cloud-server",
+  "name": "@kilroy-code/signed-cloud-server",
   "version": "0.0.2",
   "description": "Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.",
   "main": "routes.mjs",
