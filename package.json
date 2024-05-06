@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/kilroy-code/signed-cloud-server#readme",
   "devDependencies": {
-    "@kilroy-code/distributed-security": "^0.0.4",
+    "@kilroy-code/distributed-security": "^0.0.5",
     "express": "^4.19.2",
     "jasmine": "^5.1.0",
     "morgan": "^1.10.0"
