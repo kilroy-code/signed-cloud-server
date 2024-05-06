@@ -1,6 +1,6 @@
 {
   "name": "signed-cloud-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.",
   "main": "routes.mjs",
   "scripts": {
@@ -13,6 +13,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kilroy-code/signed-cloud-server.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "cloud",
