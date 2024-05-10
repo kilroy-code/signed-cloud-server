@@ -8,7 +8,6 @@
 
 import Security from "@kilroy-code/distributed-security";
 const Storage = Security.Storage; // Just shorthand.
-console.log(Storage.origin);
 
 async function checkSignedResult(collectionName, tag) {
   // Retrieve specific resource and make sure it signed appropriately.
@@ -26,7 +25,7 @@ async function checkEmptyResult(collectionName, tag) {
 describe("Signed Cloud", function () {
   let member1, member2, team;
   beforeAll(async function () {
-    await Security.ready;
+    console.log('test cloud:', await Security.ready);
     member1 = await Security.create();
     member2 = await Security.create();
     team = await Security.create(member1);
@@ -47,7 +46,7 @@ describe("Signed Cloud", function () {
     expect(await Security.verify(teamSig, {team})).toBeUndefined(); // because not signed by a current member
   });
   it('stores recovery tags.', async function () {
-    let recoveryTag = await Security.create({prompt: 'test'});
+    let recoveryTag = await Security.create({prompt: 'Test password:'});
     await checkSignedResult('EncryptionKey', recoveryTag);
     await checkSignedResult('KeyRecovery', recoveryTag);
     await Security.destroy(recoveryTag);

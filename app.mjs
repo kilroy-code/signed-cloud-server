@@ -8,7 +8,7 @@ const app = express();
 process.title = 'ki1r0ystore';
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 app.use('/db', keys);
-app.use(express.static('../..', { maxAge: '1h'}));
+app.use(express.static('../..')); // { maxAge: '1h'}
 app.listen(port, () => console.log(`${pkg.name} ${pkg.version} listening on port ${port}`));
 
 
