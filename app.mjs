@@ -12,7 +12,7 @@ const app = express();
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 app.use('/db', keys);
 
-for (let relative of ['node_modules/@kilroy-code/kilroy/public', '../..', '../../../../public']) {
+for (let relative of ['node_modules/@kilroy-code/kilroy/public', '../..', '../../../..']) {
   let real = await fs.realpath(relative).catch(() => {});
   if (real) {
     console.log({relative, real});
