@@ -12,14 +12,14 @@ const port = new URL(origin).port;
 const app = express();
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 
-app.use(cors({origin: 'https://kilr0.com'}))
+app.use(cors({origin: 'https://kilr0y.com'}))
 app.use('/db', keys);
 
 // There are three places where ki1r0y stuff might be, depending on how things are installed.
 for (let relative of [
   'node_modules/@kilroy-code/kilroy/public', // ki1r0y package installed as a dev dependency of signed-cloud-server, for GitHub actions.
   '../..',                                   // signed-cloud-server repo cloned under a server app's public directory.
-  '../../../..'                              // signed-cloud-server package installed as a dependency of a server app.
+  '../../../public'                              // signed-cloud-server package installed as a dependency of a server app.
 ]) {
   let real = await fs.realpath(relative).catch(() => {});
   if (real) {
