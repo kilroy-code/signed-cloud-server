@@ -17,9 +17,14 @@ async function checkSignedResult(collectionName, tag) {
   expect(verified.json).toBeTruthy();
   expect(verified.protectedHeader.kid || verified.protectedHeader.iss).toBeTruthy();
 }
+const noCache = {headers: { // Options to make the browser's fetch not cache. (You, too, Safari!)
+  'Cache-Control': 'no-cache',
+  'Pragma': 'no-cache',
+  'Expires': '0',
+}};
 async function checkEmptyResult(collectionName, tag) {
   // Confirm that retrieval of a specific resource is empty.
-  expect(await Storage.retrieve(collectionName, tag)).toBeFalsy();
+  expect(await Storage.retrieve(collectionName, tag, noCache)).toBeFalsy();
 }
 
 describe("Signed Cloud", function () {
@@ -39,7 +44,7 @@ describe("Signed Cloud", function () {
         verified = await Security.verify(teamSig, {team, member: member1, notBefore: 'Team'});
     expect(verified).toBeTruthy();
     await Security.changeMembership({tag: team, add: [member2], remove: [member1]});
-    teamSig = await Storage.retrieve('Team', team);
+    teamSig = await Storage.retrieve('Team', team, noCache);
     verified = await Security.verify(teamSig, {team, member: false}); // Do not check that signer is a current member.
     expect(verified).toBeTruthy();
     expect(verified.protectedHeader.act).toBe(member1); // not member2, who is the current member
