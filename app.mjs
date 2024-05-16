@@ -12,7 +12,7 @@ const port = new URL(origin).port;
 const app = express();
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 
-app.use(cors({origin: 'https://kilr0y.com'}))
+app.use(cors({origin: 'https://ki1r0y.com'}))
 app.use('/db', keys);
 
 // There are three places where ki1r0y stuff might be, depending on how things are installed.

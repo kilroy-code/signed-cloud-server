@@ -16,15 +16,17 @@
     <script type="importmap">
       {
 	"imports": {
-          "@kilroy-code/distributed-security": "/@kilroy-code/distributed-security/dist/index-bundle.mjs"
+          "@kilroy-code/distributed-security/":                        "/@kilroy-code/distributed-security/",
+          "@kilroy-code/distributed-security": "https://cloud.ki1r0y.com/@kilroy-code/distributed-security/dist/index-bundle.mjs",
+          "@kilroy-code/": "/@kilroy-code/"
 	}
       }
     </script>
 
 
     <script type="module">
-      import '/@kilroy-code/signed-cloud-server/spec/signedCloudSpec.mjs';
-      import '/@kilroy-code/distributed-security/dist/securitySpec-bundle.mjs';
+      import '@kilroy-code/distributed-security/dist/securitySpec-bundle.mjs';
+      import '@kilroy-code/signed-cloud-server/spec/signedCloudSpec.mjs';
     </script>
   </head>
   <body>
