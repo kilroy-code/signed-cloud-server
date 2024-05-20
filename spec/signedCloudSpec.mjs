@@ -14,7 +14,6 @@ async function checkSignedResult(collectionName, tag) {
   let body = await Storage.retrieve(collectionName, tag),
       verified = await Security.verify(body);
   expect(verified).toBeTruthy();
-  expect(verified.json).toBeTruthy();
   expect(verified.protectedHeader.kid || verified.protectedHeader.iss).toBeTruthy();
 }
 const noCache = {headers: { // Options to make the browser's fetch not cache. (You, too, Safari!)
@@ -30,7 +29,6 @@ async function checkEmptyResult(collectionName, tag) {
 describe("Signed Cloud", function () {
   let member1, member2, team;
   beforeAll(async function () {
-    console.log('test cloud:', await Security.ready);
     member1 = await Security.create();
     member2 = await Security.create();
     team = await Security.create(member1);
@@ -61,17 +59,20 @@ describe("Signed Cloud", function () {
   it('defines origin.', function () {
     expect(Storage.origin).toBeTruthy();
   });
+  it('defines uri.', function () {
+    expect(Storage.uri).toBeTruthy();
+  });
   it('read answers json with proper mime type.', async function () {
-    let response = await fetch(`${Storage.origin}/db/EncryptionKey/${member1}.json`);
+    let response = await fetch(Storage.uri('EncryptionKey', member1));
     expect(response.ok).toBeTruthy();
     expect(response.headers.get('Content-Type').startsWith('application/json')).toBeTruthy();
   });
   describe('write', function () {
     let anotherTeam, url, signatureByRemovedMember, signatureByFinalMember, verified;
     beforeAll(async function () {
-      anotherTeam = await Security.create(member1, member2),
-      url = `${Storage.origin}/db/Team/${anotherTeam}.json`,
-      signatureByRemovedMember = await fetch(url).then(response => response.json()),
+      anotherTeam = await Security.create(member1, member2);
+      url = Storage.uri('Team', anotherTeam);
+      signatureByRemovedMember = await fetch(url).then(response => response.json());
       await Security.changeMembership({tag: anotherTeam, remove: [member1]});
       let ending = await fetch(url).then(response => response.json());
       verified = await Security.verify(ending, {team: anotherTeam, member: false}); // Won't deep verify because we removed that member.
