@@ -6,7 +6,7 @@
 // - The default behavior of distributed-security is to use signed-cloud-client.
 // - The default behavior of signed-cloud-server is to use distributed-security
 
-import Security from "@kilroy-code/distributed-security";
+import Security from "@ki1r0y/distributed-security";
 const Storage = Security.Storage; // Just shorthand.
 
 async function checkSignedResult(collectionName, tag) {
