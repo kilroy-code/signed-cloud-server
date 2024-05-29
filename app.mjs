@@ -5,7 +5,7 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import {keys, origin} from './lib/storage.mjs';
-import pkg from './package.json' assert {type: 'json'};
+import pkg from './package.json' with {type: 'json'};
 process.title = 'ki1r0ystore';   // So that we can find it in, e.g., ps
 
 const port = new URL(origin).port; // Indirectly, through distributed-security, this is the origin that it will contact.

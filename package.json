@@ -1,6 +1,6 @@
 {
   "name": "@ki1r0y/signed-cloud-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.",
   "main": "routes.mjs",
   "scripts": {
@@ -9,6 +9,9 @@
     "background": "npm stop; (nohup npm start 1>storage.log 2>&1 &)",
     "test-client": "jasmine",
     "test": "npm run background && npm run test-client && npm stop"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -39,7 +42,7 @@
     "morgan": "^1.10.0"
   },
   "dependencies": {
-    "@ki1r0y/distributed-security": "^1.0.0",
+    "@ki1r0y/distributed-security": "^1.0.1",
     "cors": "^2.8.5",
     "express": "^4.19.2"
   }

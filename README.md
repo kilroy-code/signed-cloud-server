@@ -4,6 +4,8 @@ Basic cloud storage in which contents are cryptographically signed, using distri
 
 [ki1r0y](https://github.com/kilroy-code/ki1r0y) [distributed-security](https://github.com/kilroy-code/distributed-security) securely stores public keys and encrypted private keys in the cloud. This package provides that cloud.
 
+Requires NodeJS version 20 or higher.
+
 To run stand-alone:
 
 ```
