@@ -1,6 +1,6 @@
 {
   "name": "@ki1r0y/signed-cloud-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.",
   "main": "routes.mjs",
   "scripts": {
@@ -38,12 +38,12 @@
   },
   "homepage": "https://github.com/kilroy-code/signed-cloud-server#readme",
   "devDependencies": {
+    "cors": "^2.8.5",
     "jasmine": "^5.1.0",
     "morgan": "^1.10.0"
   },
   "dependencies": {
-    "@ki1r0y/distributed-security": "^1.0.1",
-    "cors": "^2.8.5",
+    "@ki1r0y/distributed-security": "^1.0.2",
     "express": "^4.19.2"
   }
 }

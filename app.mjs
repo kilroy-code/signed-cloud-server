@@ -1,6 +1,6 @@
 import process from 'process';
 import path from 'path';
-import * as fs from 'node:fs/promises';
+import * as fs from 'node:fs';
 import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
@@ -13,24 +13,23 @@ const app = express();
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 
 
-
-app.use(cors({origin: 'https://ki1r0y.com'})) // EDIT THIS TO WHEREVER THE APPLICATION IS SERVED. (No need for localhost.)
-
+app.use(cors()) // EDIT THIS TO SOMETHING MORE SPECIFIC for your needs.
 app.use('/db', keys);  // This is What supports the default Storage built into distributed-security.
 
+// There are a few places where @ki1r0y/distributed-security might be, depending on how things are installed.
+[
+  '../../../public/',                        // signed-cloud-server repo cloned under a server app's public directory, OR installed as a dependent package.
+  'node_modules/'                            // distributed-security installed as our dependency
+].some(relative => {
+  try {
+    let real = fs.realpathSync(relative);
+    if (real) {
+      console.log('Public files at', real);
+      return app.use(express.static(real)); // { maxAge: '1h'}
+    }
+  } catch (_) { }
+});
 
-
-// There are three places where ki1r0y stuff might be, depending on how things are installed.
-for (let relative of [
-  'node_modules/@kilroy-code/kilroy/public', // ki1r0y package installed as a dev dependency of signed-cloud-server, for GitHub actions.
-  '../..',                                   // signed-cloud-server repo cloned under a server app's public directory.
-  '../../../public'                          // signed-cloud-server package installed as a dependency of a server app.
-]) {
-  let real = await fs.realpath(relative).catch(() => {});
-  if (real) {
-    app.use(express.static(real)); // { maxAge: '1h'}
-  }
-}
 
 app.listen(port, () => console.log(`${pkg.name} ${pkg.version} listening on port ${port}`));
 
