@@ -4,8 +4,7 @@ import * as fs from 'node:fs';
 import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
-import {keys, origin} from './lib/storage.mjs';
-import pkg from './package.json' with {type: 'json'};
+import {keys, origin, ready} from './lib/storage.mjs';
 process.title = 'ki1r0ystore';   // So that we can find it in, e.g., ps
 
 const port = new URL(origin).port; // Indirectly, through distributed-security, this is the origin that it will contact.
@@ -31,6 +30,9 @@ app.use('/db', keys);  // This is What supports the default Storage built into d
 });
 
 
-app.listen(port, () => console.log(`${pkg.name} ${pkg.version} listening on port ${port}`));
+app.listen(port, async () => {
+  let {name, version} = await ready;
+  console.log(`Listening on port ${port} with ${name} ${version}.`);
+});
 
 
