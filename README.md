@@ -34,6 +34,8 @@ console.log(auditableSignature, auditableVerification);
 
 ```
 
+An [in-browser example](https://github.com/kilroy-code/distributed-security/blob/main/hello-world.html) can be run locally from this server at http://localhost:59693/@ki1r0y/distributed-security/hello-world.html, and is running publically at [https://ki1r0y.com/security-hello-world.html](https://ki1r0y.com/security-hello-world.html).
+
 
 To include as middleware within another express-like server, see [app.mjs](./app.mjs).
 
