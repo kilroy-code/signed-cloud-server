@@ -1,6 +1,6 @@
 {
   "name": "@ki1r0y/signed-cloud-server",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.",
   "main": "routes.mjs",
   "scripts": {
@@ -43,7 +43,7 @@
     "morgan": "^1.10.0"
   },
   "dependencies": {
-    "@ki1r0y/distributed-security": "^1.0.6",
+    "@ki1r0y/distributed-security": "^1.0.7",
     "express": "^4.19.2"
   }
 }
