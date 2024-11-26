@@ -1,6 +1,6 @@
 # Signed Cloud Server
 
-Basic cloud storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.
+Basic cloud-native storage in which contents are cryptographically signed, using distributed-storage as a co-dependency.
 
 [ki1r0y](https://github.com/kilroy-code/ki1r0y) [distributed-security](https://github.com/kilroy-code/distributed-security) securely stores public keys and encrypted private keys in the cloud. This package provides that cloud.
 
@@ -34,7 +34,7 @@ console.log(auditableSignature, auditableVerification);
 
 ```
 
-An [in-browser example](https://github.com/kilroy-code/distributed-security/blob/main/hello-world.html) can be run locally from this server at http://localhost:59693/@ki1r0y/distributed-security/hello-world.html, and is running publically at [**https://ki1r0y.com/security-hello-world.html**](https://ki1r0y.com/security-hello-world.html).
+An [in-browser example](https://github.com/kilroy-code/distributed-security/blob/main/hello-world.html) is running publically at [**https://ki1r0y.com/security-hello-world.html**](https://ki1r0y.com/security-hello-world.html), and you can be run your locally at http://localhost:59693/@ki1r0y/distributed-security/hello-world.html.
 
 
 To include as middleware within another express-like server, see [app.mjs](./app.mjs).
