@@ -11,24 +11,13 @@ const port = new URL(origin).port; // Indirectly, through distributed-security, 
 const app = express();
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 
-
-app.use(cors()) // EDIT THIS TO SOMETHING MORE SPECIFIC for your needs.
-app.use('/db', keys);  // This is What supports the default Storage built into distributed-security.
-
-// There are a few places where @ki1r0y/distributed-security might be, depending on how things are installed.
-[
-  '../../../public/',                        // signed-cloud-server repo cloned under a server app's public directory, OR installed as a dependent package.
-  'node_modules/'                            // distributed-security installed as our dependency
-].some(relative => {
-  try {
-    let real = fs.realpathSync(relative);
-    if (real) {
-      console.log('Public files at', real);
-      return app.use(express.static(real)); // { maxAge: '1h'}
-    }
-  } catch (_) { }
-});
-
+app.use(cors()); // EDIT THIS TO SOMETHING MORE SPECIFIC for your needs.
+app.use('/db', keys);  // This is what supports the default Storage built into distributed-security.
+const resolved = import.meta.resolve("@ki1r0y/distributed-security"); // Wherever it may be.
+const ki1r0y = path.join(new URL(resolved).pathname, '../../..');
+console.log(`@ki1r0y served from ${ki1r0y}.`);
+app.use('/@ki1r0y', express.static(ki1r0y));
+app.use(express.static(fs.realpathSync('public')));
 
 app.listen(port, async () => {
   let {name, version} = await ready;
