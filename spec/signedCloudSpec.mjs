@@ -65,7 +65,7 @@ describe("Signed Cloud", function () {
   it('read answers json with proper mime type.', async function () {
     let response = await fetch(Storage.uri('EncryptionKey', member1));
     expect(response.ok).toBeTruthy();
-    expect(response.headers.get('Content-Type').startsWith('application/json')).toBeTruthy();
+    expect(response.headers.get('Content-Type')).toContain('application/json');
   });
   describe('write', function () {
     let anotherTeam, url, signatureByRemovedMember, signatureByFinalMember, verified;

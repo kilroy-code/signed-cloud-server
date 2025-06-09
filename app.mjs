@@ -12,7 +12,7 @@ const app = express();
 app.use(logger(':date[iso] :method :url :status :res[content-length] :response-time '));
 
 app.use(cors()); // EDIT THIS TO SOMETHING MORE SPECIFIC for your needs.
-app.use('/db', keys);  // This is what supports the default Storage built into distributed-security.
+app.use('/Storage', keys);  // This is what supports the default Storage built into distributed-security.
 const resolved = import.meta.resolve("@ki1r0y/distributed-security"); // Wherever it may be.
 const ki1r0y = path.join(new URL(resolved).pathname, '../../..');
 console.log(`@ki1r0y served from ${ki1r0y}.`);
